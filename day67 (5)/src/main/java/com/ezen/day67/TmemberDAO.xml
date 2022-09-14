@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.day67.TmemberInter">
+
+<insert id="insert">
+INSERT INTO T_MEMBER VALUES(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+
+</insert>
+	
+<select id="output" resultType="com.ezen.day67.TmemberVO">
+	SELECT * FROM T_MEMBER 
+</select>	
+
+   <select id="login"  resultType="com.ezen.day67.TmemberVO"    >
+	
+		SELECT * FROM T_MEMBER	
+		WHERE id=#{param1} and pw=#{param2}		
+	
+  </select>
+  
+  <insert id="board_insert">
+  	INSERT INTO T_BOARD(NUM,WRITER,TITLE,CONTENT,GROUPS) VALUES(NUM_SEQ.NEXTVAL,#{param1},#{param2},#{param3},NUM_SEQ.CURRVAL)
+  </insert>
+  
+  <select id="print" resultType="com.ezen.day67.BoardDTO">
+  	SELECT NUM,WRITER,TITLE,CONTENT,TO_CHAR(WRITEDAY,'YYYY-MM-DD')WRITEDAY,READCNT,GROUPS,STEP,INDENT  FROM T_BOARD ORDER BY GROUPS DESC,STEP ASC
+  </select>
+  
+  <select id="detail" resultType="com.ezen.day67.BoardDTO">
+  	SELECT NUM,WRITER,TITLE,CONTENT,TO_CHAR(WRITEDAY,'YYYY-MM-DD')WRITEDAY,READCNT,GROUPS,STEP,INDENT  FROM T_BOARD WHERE NUM=#{param1}
+  </select>
+  
+  <update id="readcntup">
+  
+  UPDATE T_BOARD SET READCNT=READCNT+1 WHERE NUM=#{param1}
+  </update>
+  <select id="replyform" resultType="com.ezen.day67.BoardDTO">
+     SELECT * FROM T_BOARD WHERE NUM=#{param1}
+  </select>
+  
+  <update id="stepup">
+  UPDATE T_BOARD SET STEP = STEP+1 WHERE GROUPS=#{param1} and STEP> #{param2}
+  </update>
+  
+  <insert id="replyinput">
+  INSERT INTO T_BOARD(NUM,WRITER,TITLE,CONTENT,GROUPS,STEP,INDENT) 
+          VALUES(NUM_SEQ.NEXTVAL,#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
+  
+  </insert>
+  <!-- 
+  <delete id="board_delete">
+  		DELETE FROM T_BOARD WHERE NUM=#{param1}
+  </delete>
+   -->
+  
+    <!--페이징처리 2222222222  -->  
+<select id="cntnotice" resultType="int">
+   select count(*)from T_BOARD
+</select>
+
+<select id="selectnotice" resultType="com.ezen.day67.BoardDTO">
+   select * from (
+   select rownum rn,A.* from(  
+   select * from T_BOARD order by groups DESC,step asc)A)
+   where rn between #{start} AND #{end}
+</select>
+
+<delete id="del" >
+	delete from T_BOARD WHERE NUM=#{param1}
+</delete>
+
+</mapper>
