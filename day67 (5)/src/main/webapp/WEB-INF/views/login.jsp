@@ -14,7 +14,7 @@
 	<c:when test="${result=='loginFailed' }">
 	<script type="text/javascript">
 		window.onload=function(){
-			alert("아이디 혹은 비밀번호가 틀립니다. 다시 로그인 하세요");
+			alert("아이디 혹은 비밀번호가 틀립니다. 로그인");
 		}
 	</script>
 	</c:when>
