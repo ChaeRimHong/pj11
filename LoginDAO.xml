@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ezen.pj09.LoginService">
+
+<select id="loginaa" resultType="com.ezen.pj09.LoginDTO">
+	SELECT * FROM pj09_login WHERE ID = #{param1}  AND PW = #{param2}
+</select>
+
+</mapper>
